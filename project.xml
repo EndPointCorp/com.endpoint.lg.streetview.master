@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<project type="activity" builder="java">
+    <name>Street View Master</name>
+    <description>
+An activity responsible for the authoritative Street View location and orientation.
+    </description>
+
+    <identifyingName>com.endpoint.lg.streetview.master</identifyingName>
+    <version>1.0.0.dev</version>
+</project>
