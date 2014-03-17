@@ -185,12 +185,10 @@ public class StreetviewMasterActivity extends BaseRoutableRosActivity {
     if (event.getValue() > 0) {
       if (event.getCode() == InputEventCodes.BTN_0 && model.moveForward()) {
         broadcastPano();
-        getLog().info("Moved Street View forward");
       }
 
       if (event.getCode() == InputEventCodes.BTN_1 && model.moveBackward()) {
         broadcastPano();
-        getLog().info("Moved Street View backward");
       }
     }
   }
