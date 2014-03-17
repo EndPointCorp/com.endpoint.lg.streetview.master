@@ -79,6 +79,7 @@ public class StreetviewModel {
 
   public StreetviewModel() {
     linksDirty = true;
+    pov = new StreetviewPov(0, 0);
   }
 
   /**
