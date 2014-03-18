@@ -67,7 +67,7 @@ public class StreetviewMasterActivity extends BaseRoutableRosActivity {
   public static final double INPUT_MOVEMENT_THRESHOLD = 1.0;
 
   /**
-   * After movement, wait this many milliseconds before moving again.
+   * After axial movement, wait this many milliseconds before moving again.
    */
   public static final int INPUT_MOVEMENT_COOLDOWN = 250;
 
