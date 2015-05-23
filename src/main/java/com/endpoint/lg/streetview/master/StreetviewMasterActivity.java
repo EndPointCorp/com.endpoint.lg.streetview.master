@@ -18,14 +18,17 @@
 package com.endpoint.lg.streetview.master;
 
 import interactivespaces.activity.impl.ros.BaseRoutableRosActivity;
+import interactivespaces.util.data.json.JsonMapper;
 import interactivespaces.util.data.json.JsonNavigator;
 
 import com.endpoint.lg.support.evdev.InputKeyEvent;
-
 import com.endpoint.lg.support.message.RosMessageHandler;
+import com.endpoint.lg.support.message.Scene;
+import com.endpoint.lg.support.message.Window;
 import com.endpoint.lg.support.message.streetview.MessageTypesStreetview;
 import com.endpoint.lg.support.message.RosMessageHandlers;
 
+import java.io.IOException;
 import java.util.Map;
 
 import com.endpoint.lg.support.evdev.InputAbsState;
@@ -71,6 +74,11 @@ public class StreetviewMasterActivity extends BaseRoutableRosActivity {
    * After axial movement, wait this many milliseconds before moving again.
    */
   public static final int INPUT_MOVEMENT_COOLDOWN = 250;
+
+  /**
+   * Field separator for panoid + pov scene data.
+   */
+  public static final String SCENE_FIELD_SEPARATOR = ",";
 
   private StreetviewModel model;
 
@@ -172,6 +180,56 @@ public class StreetviewMasterActivity extends BaseRoutableRosActivity {
       public void handleMessage(JsonNavigator json) {
         if (isActivated())
           onRosAbsStateChange(new InputAbsState(json));
+      }
+    });
+
+    // handle scene changes regardless of activation
+    rosHandlers.registerHandler("scene", new RosMessageHandler() {
+      public void handleMessage(JsonNavigator json) {
+        Scene scene;
+        String jsonStr = JsonMapper.INSTANCE.toString(json.getRoot());
+
+        try {
+          scene = Scene.fromJson(jsonStr);
+        } catch (IOException e) {
+          getLog().error("Error while parsing scene message");
+          getLog().error(e.getMessage());
+          return;
+        }
+
+        for (Window w : scene.windows) {
+          if (w.activity.equals("streetview")) {
+            getLog().info("Street View scene");
+
+            String field = w.assets[0];
+            String[] parts;
+
+            if (field.contains(SCENE_FIELD_SEPARATOR)) {
+              parts = field.split(SCENE_FIELD_SEPARATOR, 3);
+            } else {
+              parts = new String[] { field };
+            }
+
+            String panoid = parts[0];
+            getLog().info("Setting pano to " + panoid);
+            model.setPano(new StreetviewPano(panoid));
+            broadcastPano();
+
+            Double x = model.getPov().getHeading(), y = model.getPov().getPitch();
+
+            if (parts.length > 1) {
+              x = Double.parseDouble(parts[1]);
+            }
+            if (parts.length > 2) {
+              y = Double.parseDouble(parts[1]);
+            }
+
+            model.setPov(new StreetviewPov(x, y));
+            broadcastPov();
+
+            break;
+          }
+        }
       }
     });
   }
