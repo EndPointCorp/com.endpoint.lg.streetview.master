@@ -19,6 +19,7 @@ package com.endpoint.lg.streetview.master;
 
 import interactivespaces.activity.impl.ros.BaseRoutableRosActivity;
 import interactivespaces.util.data.json.JsonMapper;
+import interactivespaces.util.data.json.StandardJsonMapper;
 import interactivespaces.util.data.json.JsonNavigator;
 
 import com.endpoint.lg.support.evdev.InputKeyEvent;
@@ -187,7 +188,7 @@ public class StreetviewMasterActivity extends BaseRoutableRosActivity {
     rosHandlers.registerHandler("scene", new RosMessageHandler() {
       public void handleMessage(JsonNavigator json) {
         Scene scene;
-        String jsonStr = JsonMapper.INSTANCE.toString(json.getRoot());
+        String jsonStr = StandardJsonMapper.INSTANCE.toString(json.getRoot());
 
         try {
           scene = Scene.fromJson(jsonStr);

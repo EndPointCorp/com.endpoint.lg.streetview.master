@@ -7,4 +7,24 @@ An activity responsible for the authoritative Street View location and orientati
 
     <identifyingName>com.endpoint.lg.streetview.master</identifyingName>
     <version>1.0.0.dev</version>
+    <activity type="interactivespaces_native">
+        <name>comEndpointLgStreetviewMaster</name>
+        <class>com.endpoint.lg.streetview.master.StreetviewMasterActivity</class>
+        <configuration>
+            <property name="space.activity.log.level"><value>info</value></property>
+            <property name="space.activity.ros.node.name"><value>liquidgalaxy/streetview/master/${space.activity.group}</value></property>
+            <property name="lg.evdev.device.name"><value>default</value></property>
+            <property name="space.activity.routes.inputs"><value>pov:pano:links:refresh:EV_KEY:EV_ABS:scene</value></property>
+            <property name="space.activity.route.input.pov"><value>/liquidgalaxy/${space.activity.group}/streetview/pov</value></property>
+            <property name="space.activity.route.input.pano"><value>/liquidgalaxy/${space.activity.group}/streetview/pano</value></property>
+            <property name="space.activity.route.input.links"><value>/liquidgalaxy/${space.activity.group}/streetview/links</value></property>
+            <property name="space.activity.route.input.refresh"><value>/liquidgalaxy/${space.activity.group}/streetview/refresh</value></property>
+            <property name="space.activity.route.input.EV_KEY"><value>/liquidgalaxy/${space.activity.group}/evdev/${lg.evdev.device.name}/key</value></property>
+            <property name="space.activity.route.input.EV_ABS"><value>/liquidgalaxy/${space.activity.group}/evdev/${lg.evdev.device.name}/abs</value></property>
+            <property name="space.activity.route.input.scene"><value>/director/scene</value></property>
+            <property name="space.activity.routes.outputs"><value>pov:pano</value></property>
+            <property name="space.activity.route.output.pov"><value>/liquidgalaxy/${space.activity.group}/streetview/pov</value></property>
+            <property name="space.activity.route.output.pano"><value>/liquidgalaxy/${space.activity.group}/streetview/pano</value></property>
+        </configuration>
+    </activity>
 </project>
