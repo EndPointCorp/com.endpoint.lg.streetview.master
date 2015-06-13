@@ -11,6 +11,7 @@ An activity responsible for the authoritative Street View location and orientati
         <name>comEndpointLgStreetviewMaster</name>
         <class>com.endpoint.lg.streetview.master.StreetviewMasterActivity</class>
         <configuration>
+            <property name="space.activity.group"><value>generic</value></property>
             <property name="space.activity.log.level"><value>info</value></property>
             <property name="space.activity.ros.node.name"><value>liquidgalaxy/streetview/master/${space.activity.group}</value></property>
             <property name="lg.evdev.device.name"><value>default</value></property>
